@@ -74,3 +74,31 @@
 #define MQTT_PORT            8883
 #define MQTT_TOPIC_PREFIX    "plantcare/"
 #define TELEMETRY_PERIOD_MS  5000
+
+// ---- Wokwi simulation (pio run -e sim): demo-speed timings, slider-driven sensors ----
+#ifdef SIMULATION
+#undef SOIL_RAW_DRY
+#undef SOIL_RAW_WET
+#undef SOIL_RAW_MIN_VALID
+#undef SOIL_RAW_MAX_VALID
+#define SOIL_RAW_DRY        0     // soil slider fully left = bone dry
+#define SOIL_RAW_WET        4095  // soil slider fully right = soaked
+#define SOIL_RAW_MIN_VALID  -1    // a slider can't be "unplugged"
+#define SOIL_RAW_MAX_VALID  4096
+#undef MQTT_PORT
+#define MQTT_PORT              1883  // plain MQTT: see task_net.cpp
+#undef PUMP_PULSE_MS
+#undef SOAK_MS
+#undef MAX_PULSES
+#undef PUMP_FAULT_BACKOFF_MS
+#undef MANUAL_PULSE_MS
+#undef ALERT_REMINDER_MS
+#undef BEEP_REPEAT_MS
+#define PUMP_PULSE_MS          2000
+#define SOAK_MS                5000
+#define MAX_PULSES             10
+#define PUMP_FAULT_BACKOFF_MS  60000
+#define MANUAL_PULSE_MS        3000
+#define ALERT_REMINDER_MS      60000
+#define BEEP_REPEAT_MS         15000
+#endif

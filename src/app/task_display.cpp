@@ -43,6 +43,18 @@ static void drawLcd(const State& s, bool climatePage) {
   showRow(1, row);
 }
 
+// The hardware buzzer is active (beeps on DC); Wokwi's buzzer only sounds with a tone.
+static void setBuzzer(bool on) {
+  static bool current = false;
+  if (on == current) return;
+  current = on;
+#ifdef SIMULATION
+  on ? tone(PIN_BUZZER, 2000) : noTone(PIN_BUZZER);
+#else
+  digitalWrite(PIN_BUZZER, on);
+#endif
+}
+
 static void logState(const State& s) {
   Serial.printf("[state] soil=%d tank=%d light=%d temp=%.1f hum=%.0f pump=%d watering=%d locked=%d alarms=0x%02X net=%d status=%s\n",
                 s.moisture, s.tank, s.light, s.tempC, s.humidity, s.pumpOn, s.watering, pumpLocked.load(), s.alarms,
@@ -81,7 +93,7 @@ void displayTask(void*) {
     if ((buzz & ~prevBuzz) || (buzz && now - beepStart >= BEEP_REPEAT_MS)) beepStart = now;
     prevBuzz = buzz;
     uint32_t t = now - beepStart;
-    digitalWrite(PIN_BUZZER, buzz && t < 900 && (t / 150) % 2 == 0);
+    setBuzzer(buzz && t < 900 && (t / 150) % 2 == 0);
 
     if (now - lastLcd >= LCD_REFRESH_MS) {
       lastLcd = now;

@@ -11,7 +11,21 @@
 
 #define TOPIC(name) MQTT_TOPIC_PREFIX DEVICE_ID "/" name
 
+#ifdef SIMULATION
+// Wokwi's virtual access point (open, channel 6) with internet access
+#undef WIFI_SSID
+#undef WIFI_PASS
+#define WIFI_SSID "Wokwi-GUEST"
+#define WIFI_PASS ""
+#endif
+
+#ifdef SIMULATION
+// Wokwi emulates the CPU too slowly for a TLS handshake (the watchdog fires), so the
+// simulation uses the broker's plain port; the app can stay on TLS, topics are shared.
+static WiFiClient tls;
+#else
 static WiFiClientSecure tls;
+#endif
 static PubSubClient mqtt(tls);
 
 static void onMessage(char* topic, byte* payload, unsigned int len) {
@@ -103,8 +117,14 @@ static void publishAlert(AlertType type, const State& s) {
 void netTask(void*) {
   WiFi.mode(WIFI_STA);
   WiFi.setAutoReconnect(true);
+#ifdef SIMULATION
+  WiFi.begin(WIFI_SSID, WIFI_PASS, 6);  // fixed channel skips the scan
+#else
   WiFi.begin(WIFI_SSID, WIFI_PASS);
+#endif
+#ifndef SIMULATION
   tls.setCACert(ROOT_CA);
+#endif
   mqtt.setServer(MQTT_HOST, MQTT_PORT);
   mqtt.setCallback(onMessage);
   mqtt.setBufferSize(640);
