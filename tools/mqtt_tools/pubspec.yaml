@@ -1,0 +1,8 @@
+name: mqtt_tools
+description: Fake plant-care device and topic watcher for testing the app without the ESP32.
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+dependencies:
+  mqtt_client: ^10.12.0
