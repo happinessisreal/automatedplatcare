@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -18,7 +19,8 @@ Future<MqttServerClient> connectMqtt(ConnectionSettings s, String role) async {
   client.connectionMessage = MqttConnectMessage().withClientIdentifier(clientId).startClean();
   try {
     await client.connect();
-  } catch (_) {
+  } catch (e) {
+    debugPrint('[mqtt] $role connect to ${s.host}:${s.port} failed: $e');
     client.disconnect();
     rethrow;
   }

@@ -6,7 +6,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 // Must match include/plant_config.h and docs/mqtt-contract.md.
-const brokerHost = 'broker.emqx.io';
+const brokerHost = 'broker.hivemq.com';
 const brokerPort = 8883;
 
 /// The device ID from `--id <id>`, or else from the firmware's include/secrets.h.

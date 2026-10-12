@@ -12,7 +12,7 @@ class ConnectionSettings {
 
   /// Build-time defaults from `--dart-define-from-file=env.json`, so the device ID isn't in the source.
   static const defaults = ConnectionSettings(
-    host: String.fromEnvironment('MQTT_HOST', defaultValue: 'broker.emqx.io'),
+    host: String.fromEnvironment('MQTT_HOST', defaultValue: 'broker.hivemq.com'),
     port: int.fromEnvironment('MQTT_PORT', defaultValue: 8883),
     deviceId: String.fromEnvironment('DEVICE_ID'),
   );

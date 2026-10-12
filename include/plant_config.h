@@ -70,7 +70,7 @@
 #define SERIAL_LOG_MS       2000
 
 // ---- MQTT (topics are plantcare/<DEVICE_ID>/<name>; see docs/mqtt-contract.md) ----
-#define MQTT_HOST            "broker.emqx.io"
+#define MQTT_HOST            "broker.hivemq.com"
 #define MQTT_PORT            8883
 #define MQTT_TOPIC_PREFIX    "plantcare/"
 #define TELEMETRY_PERIOD_MS  5000

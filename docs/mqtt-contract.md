@@ -2,7 +2,7 @@
 
 The ESP32 firmware, the Android app and the fake device in `tools/mqtt_tools` all follow this contract.
 
-- **Broker:** `broker.emqx.io`, port **8883** (TLS). The certificate chains to DigiCert Global Root G2.
+- **Broker:** `broker.hivemq.com`, port **8883** (TLS). The certificate chains to Amazon Root CA 1.
 - **Topics:** `plantcare/<DEVICE_ID>/<name>`. `DEVICE_ID` is 16 random hex characters. It lives in `include/secrets.h` (firmware) and `app/env.json` (app), and the LCD shows it at boot.
 - **Payloads:** UTF-8 JSON, except `online`.
 
